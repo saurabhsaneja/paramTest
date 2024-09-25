@@ -7,20 +7,20 @@ const Pagination = () => {
   const { width, height } = useWindowDimensions()
   // ?_start=10&_limit=10
   const [data, setData] = useState([]);
-  const [start, setStart] = useState(0);
+  const [start, setStart] = useState(-10);
   const [loading, setLoading] = useState(false);
   const [isListEnd, setIsListEnd] = useState(false);
 
   useEffect(() => {
     loadMoreData();
-  }, [start]);
+  }, []);
 
   const loadMoreData = async () => {
     if (!loading && !isListEnd) {
       setLoading(true);
       // Simulate API call
       const newData = await fetchDataFromApi(start);
-      console.log('newData', newData);
+      // console.log('newData', newData);
       if (newData.length > 0) {
         setData([...data, ...newData]);
       } else {
@@ -31,11 +31,12 @@ const Pagination = () => {
   };
 
   const fetchDataFromApi = async () => {
-    console.log('fetchDataFromApi');
+    console.log('fetchDataFromApi', start);
     try {
-      const response = await Service.getApi(Service.TODOS + `?_start=${start}&_limit=10`)
+      const response = await Service.getApi(Service.TODOS + `?_start=${start + 10}&_limit=10`)
       // console.log('response', JSON.stringify(response));
       if (response?.status == 200) {
+        setStart(start + 10);
         return response?.data
       } else {
         return []
@@ -52,7 +53,8 @@ const Pagination = () => {
   };
 
   const handleLoadMore = () => {
-    setStart(start + 10);
+    // setStart(start + 10);
+    loadMoreData(start + 10)
   };
 
   const renderFooter = () => {
