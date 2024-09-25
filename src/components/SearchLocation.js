@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { getFont } from '../helper';
 
-const GOOGLE_MAPS_APIKEY = 'AIzaSyBJqbxRoFBbpmwDrHOtVM26s9R1Fh5UWp0';
+const GOOGLE_MAPS_APIKEY = 'AIzaSyAk2zPbXv_tjRhyLSf4AxDW9QGx55tfyas';
 
 export const SearchLocation = ({ placeholder, setLatLng, setAddress }) => {
   return (
@@ -18,9 +18,11 @@ export const SearchLocation = ({ placeholder, setLatLng, setAddress }) => {
       listViewDisplayed={'auto'}
       styles={styles.searchbar}
       onPress={(data, details = null) => {
+        console.log('details', details);
+        console.log('data', data);
         setLatLng({
-          lat: details.geometry.location.lat,
-          lng: details.geometry.location.lng,
+          latitude: Number(details.geometry.location.lat),
+          longitude: Number(details.geometry.location.lng),
         });
         setAddress(data?.description);
       }}

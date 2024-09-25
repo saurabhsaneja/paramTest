@@ -3,6 +3,7 @@ import { View, ScrollView, Text, StyleSheet } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { SearchLocation } from "../components/SearchLocation";
+const GOOGLE_MAPS_APIKEY = 'AIzaSyAk2zPbXv_tjRhyLSf4AxDW9QGx55tfyas';
 
 const Map = () => {
   const [coordinates] = useState([])
@@ -14,24 +15,29 @@ const Map = () => {
   const [endLatLong, setEndLatLong] = useState({})
   const [endAddress, setEndAddress] = useState('')
 
+  const ifStartAndEndData = () => {
+    if(Object.keys(startLatLong)?.length === 2 && Object.keys(endLatLong)?.length === 2){
+      return true
+    }
+    return false
+  }
   return (
     <View style={styles.container}>
-      {coordinates?.length === 2 ?
+      {ifStartAndEndData() ?
         <MapView
           provider={PROVIDER_GOOGLE}
           style={styles.mapStyle}
           initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
+            ...startLatLong,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
         >
           <MapViewDirections
-            origin={coordinates[0]}
-            destination={coordinates[1]}
+            origin={startLatLong}
+            destination={endLatLong}
             waypoints={
-              coordinates.length > 2 ? coordinates.slice(1, -1) : undefined
+              [startLatLong, endLatLong].length > 2 ? [startLatLong, endLatLong].slice(1, -1) : undefined
             }
             splitWaypoints={true}
             precision="high"
@@ -55,7 +61,7 @@ const Map = () => {
           />
         </MapView>
         :
-        <View>
+        <View style={{flex: 1}} >
           <SearchLocation
             placeholder='Enter Start Location'
             setLatLng={setStartLatLong}
