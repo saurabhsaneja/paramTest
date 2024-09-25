@@ -4,12 +4,12 @@ import { getFont } from '../helper';
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAk2zPbXv_tjRhyLSf4AxDW9QGx55tfyas';
 
-export const SearchLocation = ({ placeholder, setLatLng, setAddress }) => {
+export const SearchLocation = ({ placeholder, setLatLng, setAddress, address }) => {
   return (
     <GooglePlacesAutocomplete
       placeholder={placeholder}
       textInputProps={{
-        placeholderTextColor: '#c9c9c9',
+        placeholderTextColor: 'grey',
         returnKeyType: 'search',
         multiline: true,
         height: 55,
@@ -41,6 +41,8 @@ const styles = StyleSheet.create({
   searchbar: {
     description: {
       fontWeight: 'bold',
+      color:'black',
+      fontFamily: getFont('R')
     },
     predefinedPlacesDescription: {
       color: '#1faadb',
