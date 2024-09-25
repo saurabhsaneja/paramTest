@@ -34,7 +34,7 @@ const Pagination = () => {
     console.log('fetchDataFromApi');
     try {
       const response = await Service.getApi(Service.TODOS + `?_start=${start}&_limit=10`)
-      console.log('response', JSON.stringify(response));
+      // console.log('response', JSON.stringify(response));
       if (response?.status == 200) {
         return response?.data
       } else {
@@ -73,8 +73,8 @@ const Pagination = () => {
           <Text style={styles.title} >{item.completed ? 'True' : 'False'}</Text>
           <View style={styles.border} />
           <Text style={styles.heading} >UserID</Text>
-          <View style={styles.border} />
           <Text style={styles.title} >{item.userId}</Text>
+          <View style={styles.border} />
           <Text style={styles.heading} >id</Text>
           <Text style={styles.title} >{item.id}</Text>
         </View>
@@ -90,7 +90,8 @@ const Pagination = () => {
   return (
     <FlatList
       data={data}
-      contentContainerStyle={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}
+      style={{ flex: 1 }}
+      contentContainerStyle={{ backgroundColor: 'white', alignItems: 'center' }}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => renderTodo(item)}
       onEndReached={handleLoadMore}
